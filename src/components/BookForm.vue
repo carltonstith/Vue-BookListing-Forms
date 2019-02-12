@@ -20,10 +20,12 @@ export default {
   props: ["books"],
   data() {
     return {
-      bookTitle: "",
-      bookAuthor: "",
-      finishedReading: false,
-      ownership: []
+      bookData: {
+        bookTitle: "",
+        bookAuthor: "",
+        finishedReading: false,
+        ownership: []
+      }
     };
   },
   methods: {
