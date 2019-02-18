@@ -4,6 +4,17 @@
     <ul>
       <book-item v-for='book in books' :key='book.id' :book='book'></book-item>
     </ul>
+    <hr>
+    <h2>Filtered Books By Ownership</h2>
+    <select v-model="holding" name="">
+      <option v-for="filter in filters">
+        {{ filter }}
+      </option>
+    </select>
+    <ul>
+      <book-item v-for='book in filteredBooks' :key='book.id' :book='book'></book-item>
+    </ul>
+    <book-item></book-item>
     <br><hr>
     <book-form @addBook='appendBook'></book-form>
   </div>
@@ -12,6 +23,7 @@
 <script>
 import BookItem from "./BookItem";
 import BookForm from "./BookForm";
+import _ from "lodash";
 
 export default {
   name: "BookList",
@@ -20,11 +32,18 @@ export default {
       title: "All Books",
       states: ["Want to Read", "Read", "Reading"],
       books: [
-        { title: "Self-Reliance", author: "Ralph Waldo Emerson", finishedReading: true },
-        { title: "American Gods", author: "Neil Gaiman", finishedReading: false },
-        { title: "Amusing Ourselves to Death", author: "Neil Postman", finishedReading: true }
-      ]
+        { title: "Self-Reliance", author: "Ralph Waldo Emerson", finishedReading: true, ownership: "borrowed" },
+        { title: "American Gods", author: "Neil Gaiman", finishedReading: false, ownership: "bought" },
+        { title: "Amusing Ourselves to Death", author: "Neil Postman", finishedReading: true, ownership: "borrowed" }
+      ],
+      filters: ["bought", "borrowed"],
+      holding: "bought"
     };
+  },
+  computed: {
+    filteredBooks() {
+      return _.filter(this.books, ["ownership", this.holding]);
+    }
   },
   components: {
     BookItem,
@@ -35,7 +54,9 @@ export default {
       this.books.push({
         title: bookData.bookTitle,
         author: bookData.bookAuthor,
-        finishedReading: bookData.finishedReading });
+        finishedReading: bookData.finishedReading,
+        ownership: bookData.ownership
+      });
     }
   }
 };
