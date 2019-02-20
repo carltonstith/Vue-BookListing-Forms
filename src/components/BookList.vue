@@ -14,16 +14,15 @@
     <ul>
       <book-item v-for='book in filteredBooks' :key='book.id' :book='book'></book-item>
     </ul>
-    <book-item></book-item>
     <br><hr>
     <book-form @addBook='appendBook'></book-form>
   </div>
 </template>
 
 <script>
+import _ from "lodash";
 import BookItem from "./BookItem";
 import BookForm from "./BookForm";
-import _ from "lodash";
 
 export default {
   name: "BookList",
